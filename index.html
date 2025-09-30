@@ -1,49 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sentient Dobby Maze</title>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <img src="assets/sentient-logo.png" alt="Sentient Logo" class="logo"/>
+    <img src="assets/sentient_logo.png" alt="Sentient Logo" class="logo">
     <h1>Sentient Dobby Maze</h1>
   </header>
 
   <main>
-    <div id="game-container">
-      <canvas id="maze"></canvas>
-      <div id="mobile-controls">
-        <button id="up">▲</button>
-        <div class="middle-row">
-          <button id="left">◀</button>
-          <button id="down">▼</button>
-          <button id="right">▶</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="hud">
-      <div id="timer">Time: 60</div>
-      <div id="best-score">Best: --</div>
+    <canvas id="mazeCanvas"></canvas>
+    <div class="hud">
+      <span id="timer">Time: 60</span>
+      <span id="best">Best: --</span>
     </div>
   </main>
 
-  <footer>
-    <img src="assets/x-logo.png" alt="X Logo" class="xlogo"/>
-    <span>Made by @prith_boy</span>
-  </footer>
-
-  <!-- Popup modal -->
-  <div id="popup" class="hidden">
-    <div class="popup-content">
-      <h2 id="popup-title"></h2>
-      <p id="popup-msg"></p>
-      <button id="play-again">Play Again</button>
+  <!-- Mobile controls -->
+  <div id="controls">
+    <button id="up">▲</button>
+    <div class="middle-row">
+      <button id="left">◀</button>
+      <button id="down">▼</button>
+      <button id="right">▶</button>
     </div>
   </div>
+
+  <footer>
+    <p><img src="assets/x_logo.png" class="x-logo"> Made by @prith_boy</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>

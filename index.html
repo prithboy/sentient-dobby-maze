@@ -1,49 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sentient Dobby Maze</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <!-- Header -->
-  <header>
-    <img src="assets/sentient-logo.png" alt="Sentient Logo" class="logo">
-    <h1>Sentient Dobby Maze</h1>
-  </header>
+<!doctype html>
+</div>
+<div class="progress-wrap" aria-hidden>
+<div id="timeProgress" class="progress"></div>
+</div>
+</aside>
 
-  <!-- Timer + Best Score -->
-  <div id="stats">
-    <span id="timer">Time: 60</span>
-    <span id="best">Best: --</span>
-  </div>
 
-  <!-- Maze Canvas -->
-  <canvas id="mazeCanvas" width="400" height="400"></canvas>
+<section class="game-area">
+<canvas id="mazeCanvas" width="640" height="640" aria-label="Maze canvas"></canvas>
 
-  <!-- Mobile Controls -->
-  <div id="controls">
-    <button class="btn" onclick="move('up')">⬆</button>
-    <div>
-      <button class="btn" onclick="move('left')">⬅</button>
-      <button class="btn" onclick="move('down')">⬇</button>
-      <button class="btn" onclick="move('right')">➡</button>
-    </div>
-  </div>
 
-  <!-- Credits -->
-  <div id="credits">
-    <img src="assets/x-logo.png" alt="X Logo" class="xlogo">
-    <span> made by @prith_boy</span>
-  </div>
+<!-- On-screen mobile controls -->
+<div class="mobile-controls" id="mobileControls" aria-hidden>
+<button class="arrow" data-dir="up">▲</button>
+<div class="row">
+<button class="arrow" data-dir="left">◀</button>
+<button class="arrow" data-dir="down">▼</button>
+<button class="arrow" data-dir="right">▶</button>
+</div>
+</div>
+</section>
+</main>
 
-  <!-- Popup -->
-  <div id="popup">
-    <h2 id="popupText"></h2>
-    <button onclick="restartGame()">Play Again</button>
-  </div>
 
-  <script src="script.js"></script>
+<footer class="footer">
+<div class="credit">
+<!-- X logo inline SVG placeholder. Replace with assets/x-logo.png if you have one. -->
+<img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'><rect width='24' height='24' rx='4' fill='%23ffffff'/><text x='12' y='16' font-size='12' text-anchor='middle' font-family='Poppins, sans-serif' fill='%23624aa7' font-weight='700'>X</text></svg>" alt="X">
+<span>made by @prith_boy</span>
+</div>
+</footer>
+
+
+<!-- Modal / Popup -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+<div class="modal-card">
+<h2 id="modalTitle">You won!</h2>
+<p id="modalSub">Congrats — your Dobby escaped the maze.</p>
+<div class="modal-actions">
+<button id="playAgain" class="btn primary">Play Again</button>
+<button id="closeModal" class="btn ghost">Close</button>
+</div>
+</div>
+</div>
+</div>
+
+
+<script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,88 @@
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: #6a0dad;
+  font-family: Arial, sans-serif;
+  color: white;
+  height: 100vh;
+  overflow: hidden;
+}
+
+header {
+  text-align: center;
+  margin: 10px;
+}
+
+.logo {
+  height: 40px;
+  display: block;
+  margin: 0 auto;
+}
+
+#stats {
+  margin: 10px;
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  max-width: 400px;
+}
+
+#mazeCanvas {
+  background: #a56de2;
+  border: 3px solid white;
+}
+
+#controls {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.btn {
+  background: #fff;
+  border: none;
+  margin: 5px;
+  padding: 15px;
+  font-size: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#credits {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+
+.xlogo {
+  height: 20px;
+  margin-right: 5px;
+}
+
+#popup {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  color: #000;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  z-index: 100;
+}
+
+#popup button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}

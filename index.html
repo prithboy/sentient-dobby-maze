@@ -1,53 +1,49 @@
-<!doctype html>
-<div id="timerValue">60</div>
-</div>
-<div class="progress-wrap" aria-hidden="true">
-<div id="timeBar" class="time-bar"></div>
-</div>
-<div class="best">
-<div>Best</div>
-<div id="bestValue">--</div>
-</div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentient Dobby Maze</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <img src="assets/sentient-logo.png" alt="Sentient Logo" class="logo">
+    <h1>Sentient Dobby Maze</h1>
+  </header>
 
+  <!-- Timer + Best Score -->
+  <div id="stats">
+    <span id="timer">Time: 60</span>
+    <span id="best">Best: --</span>
+  </div>
 
-<div class="canvas-wrap">
-<canvas id="mazeCanvas" width="600" height="600"></canvas>
-</div>
+  <!-- Maze Canvas -->
+  <canvas id="mazeCanvas" width="400" height="400"></canvas>
 
+  <!-- Mobile Controls -->
+  <div id="controls">
+    <button class="btn" onclick="move('up')">⬆</button>
+    <div>
+      <button class="btn" onclick="move('left')">⬅</button>
+      <button class="btn" onclick="move('down')">⬇</button>
+      <button class="btn" onclick="move('right')">➡</button>
+    </div>
+  </div>
 
-<!-- On-screen mobile controls (hidden on desktop by CSS) -->
-<nav class="mobile-controls" aria-hidden="false">
-<button class="arrow" data-dir="up">⬆</button>
-<div class="row">
-<button class="arrow" data-dir="left">⬅</button>
-<button class="arrow" data-dir="down">⬇</button>
-<button class="arrow" data-dir="right">➡</button>
-</div>
-</nav>
-</section>
+  <!-- Credits -->
+  <div id="credits">
+    <img src="assets/x-logo.png" alt="X Logo" class="xlogo">
+    <span> made by @prith_boy</span>
+  </div>
 
+  <!-- Popup -->
+  <div id="popup">
+    <h2 id="popupText"></h2>
+    <button onclick="restartGame()">Play Again</button>
+  </div>
 
-<!-- popups -->
-<div id="popup" class="popup hidden" role="dialog" aria-modal="true">
-<div class="popup-card">
-<h2 id="popupTitle">You Won!</h2>
-<p id="popupSub">Your Dobby completed the maze.</p>
-<div class="popup-info">
-<div>Time: <strong id="popupTime">--</strong>s</div>
-<div>Best: <strong id="popupBest">--</strong>s</div>
-</div>
-<div class="popup-actions">
-<button id="playAgain" class="btn">Play Again</button>
-<button id="closeBtn" class="btn ghost">Close</button>
-</div>
-</div>
-</div>
-
-
-</main>
-
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

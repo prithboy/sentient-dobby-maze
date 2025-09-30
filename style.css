@@ -1,88 +1,138 @@
-body {
+/* General reset */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #1b0033;
+  color: #fff;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
   align-items: center;
-  justify-content: flex-start;
-  background: #6a0dad;
-  font-family: Arial, sans-serif;
-  color: white;
-  height: 100vh;
-  overflow: hidden;
 }
 
 header {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0;
+}
+
+header .logo {
+  height: 50px;
+  margin-bottom: 5px;
+}
+
+h1 {
+  font-size: 1.5rem;
+  color: #c084fc;
+}
+
+#game-container {
+  position: relative;
   margin: 10px;
 }
 
-.logo {
-  height: 40px;
+#maze {
+  border: 2px solid #c084fc;
+  background: #2d0a4e;
   display: block;
-  margin: 0 auto;
 }
 
-#stats {
-  margin: 10px;
-  font-size: 18px;
+#hud {
+  margin-top: 10px;
   display: flex;
   justify-content: space-between;
-  width: 80%;
-  max-width: 400px;
+  width: 90%;
+  max-width: 500px;
 }
 
-#mazeCanvas {
-  background: #a56de2;
-  border: 3px solid white;
-}
-
-#controls {
-  margin-top: 15px;
-  text-align: center;
-}
-
-.btn {
-  background: #fff;
-  border: none;
-  margin: 5px;
-  padding: 15px;
-  font-size: 20px;
+#timer, #best-score {
+  font-size: 1rem;
+  background: #3b0764;
+  padding: 5px 10px;
   border-radius: 8px;
-  cursor: pointer;
 }
 
-#credits {
+/* Mobile controls */
+#mobile-controls {
   position: absolute;
-  bottom: 10px;
-  left: 10px;
-  font-size: 14px;
+  bottom: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+#mobile-controls button {
+  background: #c084fc;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  padding: 15px;
+  margin: 5px;
+  border-radius: 8px;
+}
+
+#mobile-controls .middle-row {
+  display: flex;
+  justify-content: center;
+}
+
+footer {
+  margin-top: auto;
   display: flex;
   align-items: center;
-  color: #fff;
+  gap: 5px;
+  margin-bottom: 10px;
 }
 
-.xlogo {
+footer .xlogo {
   height: 20px;
-  margin-right: 5px;
 }
 
+/* Popup styling */
 #popup {
-  display: none;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #fff;
-  color: #000;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#popup.hidden {
+  display: none;
+}
+
+.popup-content {
+  background: #3b0764;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
-  z-index: 100;
+  width: 80%;
+  max-width: 300px;
 }
 
-#popup button {
-  margin-top: 10px;
+.popup-content button {
+  margin-top: 15px;
   padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
+  background: #c084fc;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  #mobile-controls {
+    display: flex;
+  }
 }

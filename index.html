@@ -7,32 +7,42 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Header -->
   <header>
-    <img src="assets/sentient_logo.png" alt="Sentient Logo" class="logo">
+    <img src="assets/sentient-logo.png" alt="Sentient Logo" class="logo">
     <h1>Sentient Dobby Maze</h1>
   </header>
 
-  <main>
-    <canvas id="mazeCanvas"></canvas>
-    <div class="hud">
-      <span id="timer">Time: 60</span>
-      <span id="best">Best: --</span>
-    </div>
-  </main>
+  <!-- Timer + Best Score -->
+  <div id="stats">
+    <span id="timer">Time: 60</span>
+    <span id="best">Best: --</span>
+  </div>
 
-  <!-- Mobile controls -->
+  <!-- Maze Canvas -->
+  <canvas id="mazeCanvas" width="400" height="400"></canvas>
+
+  <!-- Mobile Controls -->
   <div id="controls">
-    <button id="up">▲</button>
-    <div class="middle-row">
-      <button id="left">◀</button>
-      <button id="down">▼</button>
-      <button id="right">▶</button>
+    <button class="btn" onclick="move('up')">⬆</button>
+    <div>
+      <button class="btn" onclick="move('left')">⬅</button>
+      <button class="btn" onclick="move('down')">⬇</button>
+      <button class="btn" onclick="move('right')">➡</button>
     </div>
   </div>
 
-  <footer>
-    <p><img src="assets/x_logo.png" class="x-logo"> Made by @prith_boy</p>
-  </footer>
+  <!-- Credits -->
+  <div id="credits">
+    <img src="assets/x-logo.png" alt="X Logo" class="xlogo">
+    <span> made by @prith_boy</span>
+  </div>
+
+  <!-- Popup -->
+  <div id="popup">
+    <h2 id="popupText"></h2>
+    <button onclick="restartGame()">Play Again</button>
+  </div>
 
   <script src="script.js"></script>
 </body>

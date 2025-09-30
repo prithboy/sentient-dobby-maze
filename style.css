@@ -1,138 +1,70 @@
-/* General reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
+  margin: 0;
   font-family: Arial, sans-serif;
-  background: #1b0033;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  align-items: center;
+  background: #1a052d;
+  color: #c084fc;
+  text-align: center;
 }
 
 header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 10px 0;
-}
-
-header .logo {
-  height: 50px;
-  margin-bottom: 5px;
-}
-
-h1 {
-  font-size: 1.5rem;
-  color: #c084fc;
-}
-
-#game-container {
-  position: relative;
-  margin: 10px;
-}
-
-#maze {
-  border: 2px solid #c084fc;
-  background: #2d0a4e;
-  display: block;
-}
-
-#hud {
   margin-top: 10px;
+}
+
+.logo {
+  width: 40px;
+  vertical-align: middle;
+}
+
+canvas {
+  background: #2d0a4e;
+  border: 2px solid #a855f7;
+  margin-top: 20px;
+}
+
+.hud {
+  margin-top: 10px;
+  font-size: 18px;
   display: flex;
   justify-content: space-between;
-  width: 90%;
-  max-width: 500px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-#timer, #best-score {
-  font-size: 1rem;
-  background: #3b0764;
-  padding: 5px 10px;
-  border-radius: 8px;
-}
-
-/* Mobile controls */
-#mobile-controls {
-  position: absolute;
-  bottom: -120px;
-  left: 50%;
-  transform: translateX(-50%);
+#controls {
   display: none;
-  flex-direction: column;
-  align-items: center;
+  margin-top: 20px;
 }
 
-#mobile-controls button {
-  background: #c084fc;
+#controls button {
+  background: #a855f7;
   border: none;
   color: white;
-  font-size: 1.5rem;
-  padding: 15px;
+  font-size: 24px;
   margin: 5px;
+  padding: 15px;
   border-radius: 8px;
 }
 
-#mobile-controls .middle-row {
+#controls .middle-row {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 footer {
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-bottom: 10px;
+  margin-top: 20px;
+  font-size: 14px;
 }
 
-footer .xlogo {
-  height: 20px;
+.x-logo {
+  width: 14px;
+  vertical-align: middle;
 }
 
-/* Popup styling */
-#popup {
-  position: fixed;
-  top: 0; left: 0;
-  right: 0; bottom: 0;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#popup.hidden {
-  display: none;
-}
-
-.popup-content {
-  background: #3b0764;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  width: 80%;
-  max-width: 300px;
-}
-
-.popup-content button {
-  margin-top: 15px;
-  padding: 10px 20px;
-  background: #c084fc;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-size: 1rem;
-}
-
-/* Responsiveness */
+/* Show arrows only on mobile */
 @media (max-width: 768px) {
-  #mobile-controls {
-    display: flex;
+  #controls {
+    display: block;
   }
 }

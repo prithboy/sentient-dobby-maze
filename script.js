@@ -1,162 +1,158 @@
-const canvas = document.getElementById("mazeCanvas");
+const canvas = document.getElementById("maze");
 const ctx = canvas.getContext("2d");
+const popup = document.getElementById("popup");
+const popupTitle = document.getElementById("popup-title");
+const popupMsg = document.getElementById("popup-msg");
+const playAgainBtn = document.getElementById("play-again");
+const timerEl = document.getElementById("timer");
+const bestEl = document.getElementById("best-score");
 
-const rows = 10;
-const cols = 10;
-const cellSize = canvas.width / cols;
+let rows = 15, cols = 15;
+let cellSize = 25;
+canvas.width = cols * cellSize;
+canvas.height = rows * cellSize;
 
 let maze = [];
 let player = { x: 0, y: 0 };
-let goal = { x: cols - 1, y: rows - 1 };
+let exit = { x: cols - 1, y: rows - 1 };
 let timer = 60;
-let timerInterval;
-let bestScore = localStorage.getItem("bestTime") || null;
+let interval;
+let bestScore = localStorage.getItem("dobbyBest") || null;
 
-// Maze cell structure
-function Cell(x, y) {
-  this.x = x;
-  this.y = y;
-  this.walls = { top: true, right: true, bottom: true, left: true };
-  this.visited = false;
-}
+// Load images
+const dobbyImg = new Image();
+dobbyImg.src = "assets/dobby.png";
 
+const exitImg = new Image();
+exitImg.src = "assets/exit.png";   // Your exit PNG
+
+// Maze generator (DFS)
 function generateMaze() {
-  maze = [];
-  for (let y = 0; y < rows; y++) {
-    let row = [];
-    for (let x = 0; x < cols; x++) {
-      row.push(new Cell(x, y));
-    }
-    maze.push(row);
-  }
-
+  maze = Array(rows).fill(null).map(() => Array(cols).fill(1));
   let stack = [];
-  let current = maze[0][0];
-  current.visited = true;
+  let start = { x: 0, y: 0 };
+  maze[start.y][start.x] = 0;
+  stack.push(start);
 
-  while (true) {
-    let next = getUnvisitedNeighbor(current);
-    if (next) {
-      stack.push(current);
-      removeWalls(current, next);
-      current = next;
-      current.visited = true;
-    } else if (stack.length > 0) {
-      current = stack.pop();
-    } else break;
-  }
-}
+  while (stack.length > 0) {
+    let current = stack[stack.length - 1];
+    let neighbors = [];
 
-function getUnvisitedNeighbor(cell) {
-  let neighbors = [];
-  let { x, y } = cell;
-  if (y > 0 && !maze[y - 1][x].visited) neighbors.push(maze[y - 1][x]);
-  if (x < cols - 1 && !maze[y][x + 1].visited) neighbors.push(maze[y][x + 1]);
-  if (y < rows - 1 && !maze[y + 1][x].visited) neighbors.push(maze[y + 1][x]);
-  if (x > 0 && !maze[y][x - 1].visited) neighbors.push(maze[y][x - 1]);
-  return neighbors.length ? neighbors[Math.floor(Math.random() * neighbors.length)] : null;
-}
+    [[0,-2],[0,2],[-2,0],[2,0]].forEach(([dx,dy])=>{
+      let nx = current.x + dx, ny = current.y + dy;
+      if(nx>=0 && ny>=0 && nx<cols && ny<rows && maze[ny][nx]===1){
+        neighbors.push({x:nx,y:ny});
+      }
+    });
 
-function removeWalls(a, b) {
-  let dx = b.x - a.x;
-  let dy = b.y - a.y;
-  if (dx === 1) { a.walls.right = false; b.walls.left = false; }
-  if (dx === -1) { a.walls.left = false; b.walls.right = false; }
-  if (dy === 1) { a.walls.bottom = false; b.walls.top = false; }
-  if (dy === -1) { a.walls.top = false; b.walls.bottom = false; }
-}
-
-function drawMaze() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.strokeStyle = "white";
-  ctx.lineWidth = 2;
-
-  for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < cols; x++) {
-      let cell = maze[y][x];
-      let px = x * cellSize;
-      let py = y * cellSize;
-
-      if (cell.walls.top) { ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px + cellSize, py); ctx.stroke(); }
-      if (cell.walls.right) { ctx.beginPath(); ctx.moveTo(px + cellSize, py); ctx.lineTo(px + cellSize, py + cellSize); ctx.stroke(); }
-      if (cell.walls.bottom) { ctx.beginPath(); ctx.moveTo(px, py + cellSize); ctx.lineTo(px + cellSize, py + cellSize); ctx.stroke(); }
-      if (cell.walls.left) { ctx.beginPath(); ctx.moveTo(px, py); ctx.lineTo(px, py + cellSize); ctx.stroke(); }
+    if (neighbors.length) {
+      let next = neighbors[Math.floor(Math.random()*neighbors.length)];
+      let mx = (current.x + next.x)/2;
+      let my = (current.y + next.y)/2;
+      maze[next.y][next.x] = 0;
+      maze[my][mx] = 0;
+      stack.push(next);
+    } else {
+      stack.pop();
     }
   }
+}
+
+// Draw maze + player + exit
+function draw() {
+  ctx.fillStyle = "#2d0a4e";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  for(let y=0;y<rows;y++){
+    for(let x=0;x<cols;x++){
+      if(maze[y][x]===1){
+        ctx.fillStyle = "#3b0764";
+        ctx.fillRect(x*cellSize,y*cellSize,cellSize,cellSize);
+      }
+    }
+  }
+
+  // Draw exit
+  ctx.drawImage(exitImg, exit.x * cellSize, exit.y * cellSize, cellSize, cellSize);
 
   // Draw player (Dobby)
-  let img = new Image();
-  img.src = "assets/dobby.png";
-  ctx.drawImage(img, player.x * cellSize + 5, player.y * cellSize + 5, cellSize - 10, cellSize - 10);
-
-  // Draw goal
-  ctx.fillStyle = "yellow";
-  ctx.fillRect(goal.x * cellSize + 10, goal.y * cellSize + 10, cellSize - 20, cellSize - 20);
+  ctx.drawImage(dobbyImg, player.x * cellSize, player.y * cellSize, cellSize, cellSize);
 }
 
-function move(direction) {
-  let current = maze[player.y][player.x];
-  if (direction === "up" && !current.walls.top) player.y--;
-  if (direction === "down" && !current.walls.bottom) player.y++;
-  if (direction === "left" && !current.walls.left) player.x--;
-  if (direction === "right" && !current.walls.right) player.x++;
-  checkWin();
-  drawMaze();
+// Movement
+function move(dx,dy){
+  let nx = player.x + dx;
+  let ny = player.y + dy;
+  if(nx>=0 && ny>=0 && nx<cols && ny<rows && maze[ny][nx]===0){
+    player.x = nx;
+    player.y = ny;
+    checkWin();
+  }
+  draw();
 }
 
-document.addEventListener("keydown", e => {
-  if (e.key === "ArrowUp") move("up");
-  if (e.key === "ArrowDown") move("down");
-  if (e.key === "ArrowLeft") move("left");
-  if (e.key === "ArrowRight") move("right");
+function checkWin(){
+  if(player.x === exit.x && player.y === exit.y){
+    clearInterval(interval);
+    let timeUsed = 60 - timer;
+    if(!bestScore || timeUsed < bestScore){
+      bestScore = timeUsed;
+      localStorage.setItem("dobbyBest", bestScore);
+    }
+    showPopup("Your Dobby Won!", `Time used: ${timeUsed}s`);
+  }
+}
+
+// Timer
+function startTimer(){
+  timer = 60;
+  timerEl.textContent = "Time: 60";
+  interval = setInterval(()=>{
+    timer--;
+    timerEl.textContent = "Time: " + timer;
+    if(timer<=0){
+      clearInterval(interval);
+      showPopup("Time Up!", "Play Again?");
+    }
+  },1000);
+}
+
+// Popup
+function showPopup(title,msg){
+  popupTitle.textContent = title;
+  popupMsg.textContent = msg;
+  popup.classList.remove("hidden");
+  if(bestScore){
+    bestEl.textContent = "Best: " + bestScore + "s";
+  }
+}
+
+// New Game
+function newGame(){
+  popup.classList.add("hidden");
+  player = {x:0,y:0};
+  generateMaze();
+  draw();
+  startTimer();
+  if(bestScore){
+    bestEl.textContent = "Best: " + bestScore + "s";
+  }
+}
+
+// Controls
+document.addEventListener("keydown", e=>{
+  if(e.key==="ArrowUp") move(0,-1);
+  if(e.key==="ArrowDown") move(0,1);
+  if(e.key==="ArrowLeft") move(-1,0);
+  if(e.key==="ArrowRight") move(1,0);
 });
 
-function checkWin() {
-  if (player.x === goal.x && player.y === goal.y) {
-    clearInterval(timerInterval);
-    let timeUsed = 60 - timer;
-    if (!bestScore || timeUsed < bestScore) {
-      bestScore = timeUsed;
-      localStorage.setItem("bestTime", bestScore);
-    }
-    showPopup("Your Dobby Won 🎉");
-  }
-}
+document.getElementById("up").onclick = ()=>move(0,-1);
+document.getElementById("down").onclick = ()=>move(0,1);
+document.getElementById("left").onclick = ()=>move(-1,0);
+document.getElementById("right").onclick = ()=>move(1,0);
 
-function startTimer() {
-  timer = 60;
-  document.getElementById("timer").innerText = "Time: " + timer;
-  timerInterval = setInterval(() => {
-    timer--;
-    document.getElementById("timer").innerText = "Time: " + timer;
-    if (timer <= 0) {
-      clearInterval(timerInterval);
-      showPopup("⏳ Time's Up! Play Again?");
-    }
-  }, 1000);
-}
+playAgainBtn.onclick = newGame;
 
-function showPopup(msg) {
-  document.getElementById("popupText").innerText = msg;
-  document.getElementById("popup").style.display = "block";
-  if (bestScore) {
-    document.getElementById("best").innerText = "Best: " + bestScore + "s";
-  }
-}
-
-function restartGame() {
-  document.getElementById("popup").style.display = "none";
-  generateMaze();
-  player = { x: 0, y: 0 };
-  drawMaze();
-  startTimer();
-}
-
-function init() {
-  if (bestScore) document.getElementById("best").innerText = "Best: " + bestScore + "s";
-  generateMaze();
-  drawMaze();
-  startTimer();
-}
-
-init();
+// Start
+newGame();
